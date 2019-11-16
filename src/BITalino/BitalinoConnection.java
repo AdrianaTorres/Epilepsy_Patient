@@ -15,40 +15,23 @@ public class BitalinoConnection {
 	        try {
 	            bitalino = new BITalino();
 	            // find devices
-	            //Only works on some OS
 	            Vector<RemoteDevice> devices = bitalino.findDevices();
 	            System.out.println(devices);
 
-	            //You need TO CHANGE THE MAC ADDRESS
-	            String macAddress = "20:16:02:14:75:76";
+	            //MAC address need to be changed if connecting to another Bitalino.
+	            String macAddress = "20:16:07:18:17:85";
 	            int SamplingRate = 10;
 	            bitalino.open(macAddress, SamplingRate);
 
-	            // start acquisition on analog channels A2 and A6
-	            //If you want A1, A3 and A4 you should use {0,2,3}
-	            int[] channelsToAcquire = {1, 5};
+	            // start acquisition on analog channels A1 and A2 (EMG, ECG)
+	            int[] channelsToAcquire = {1, 2};
 	            bitalino.start(channelsToAcquire);
 
 	            //read 10000 samples
 	            for (int j = 0; j < 10000000; j++) {
 
 	                //Read a block of 100 samples 
-	                frame = bitalino.read(10);
-
-	                System.out.println("size block: " + frame.length);
-
-	                //Print the samples
-	                for (int i = 0; i < frame.length; i++) {
-	                    System.out.println((j * 100 + i) + " seq: " + frame[i].seq + " "
-	                            + frame[i].analog[0] + " "
-	                            + frame[i].analog[1] + " "
-	                    //  + frame[i].analog[2] + " "
-	                    //  + frame[i].analog[3] + " "
-	                    //  + frame[i].analog[4] + " "
-	                    //  + frame[i].analog[5]
-	                    );
-
-	                }
+	                frame = bitalino.read(100);
 	            }
 	            //stop acquisition
 	            bitalino.stop();
