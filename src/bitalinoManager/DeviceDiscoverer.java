@@ -1,4 +1,4 @@
-package BITalino;
+package bitalinoManager;
 
 import java.util.Vector;
 import javax.bluetooth.DeviceClass;
@@ -9,6 +9,7 @@ import javax.bluetooth.RemoteDevice;
 import javax.bluetooth.ServiceRecord;
 
 public class DeviceDiscoverer implements DiscoveryListener {
+
 
     public Vector<RemoteDevice> remoteDevices = new Vector<RemoteDevice>();
     DiscoveryAgent discoveryAgent;
@@ -64,5 +65,4 @@ public class DeviceDiscoverer implements DiscoveryListener {
     public void servicesDiscovered(int transID, ServiceRecord[] servRecord){}
 
     public void serviceSearchCompleted(int transID, int respCode) {}
-
 }

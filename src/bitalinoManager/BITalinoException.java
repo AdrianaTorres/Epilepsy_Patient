@@ -1,6 +1,6 @@
-package BITalino;
+package bitalinoManager;
 
-public class BITalinoException extends java.lang.Exception{
+public class BITalinoException extends java.lang.Exception {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -10,5 +10,5 @@ public class BITalinoException extends java.lang.Exception{
 	}
 	
 	public int code;
-	
+
 }
