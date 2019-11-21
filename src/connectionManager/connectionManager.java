@@ -91,8 +91,8 @@ public class connectionManager {
 					Iterator iterator_1 = eeg.iterator();
 					pw.println("PREPARE TO RECIEVE EEG");
 					for (Iterator iterator = time2.iterator(); iterator.hasNext();) {
-						pw.println(iterator.next());
-						pw.println(iterator_1.next());
+						pw.println(iterator.next()); //time valor impar
+						pw.println(iterator_1.next()); //data valor par
 					}
 					pw.println("PREPARE TO RECIEVE ECG");
 					iterator_1 = ecg.iterator();
