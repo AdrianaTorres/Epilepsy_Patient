@@ -22,7 +22,7 @@ public class connectionManager {
 
 	public connectionManager(String ip) throws Exception{
 		try {
-			manager= new Socket(ip,9009);
+			manager= new Socket(ip,9000);
 			pw= new PrintWriter(manager.getOutputStream(),true);
 			bf= new BufferedReader(new InputStreamReader(manager.getInputStream()));
 			requestedMonitoring=false;
