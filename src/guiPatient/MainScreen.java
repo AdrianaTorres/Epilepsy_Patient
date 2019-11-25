@@ -81,7 +81,8 @@ public class MainScreen{
 		JButton button_2= new JButton("Last report");
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser c = new JFileChooser(System.getProperty("user.dir")+"\\reports");
+				
+				JFileChooser c = new JFileChooser(System.getProperty("user.dir"));
 			      int rVal = c.showOpenDialog(f);
 			      if (rVal == JFileChooser.APPROVE_OPTION) {
 			        String path=c.getSelectedFile().getAbsolutePath();

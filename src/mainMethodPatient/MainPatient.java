@@ -20,6 +20,7 @@ public class MainPatient {
 	/*When you start the application as a client the first thing that should pop up is a login page to connect to the server so the main method
 	 * does exatly that, calls a login page.*/
 	public static void main(String[] args) {
+		FileManager.configure();
 		Login login = new Login();
 	}
 	public static void loadReport(String path,UserProfile up) {
