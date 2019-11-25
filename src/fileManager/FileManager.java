@@ -32,6 +32,9 @@ public class FileManager {
 				System.out.println("not possible to create config File or folder...");
 			}
 		}
+		if(!report.isDirectory()) {
+			report.mkdir();
+		}
 	}
 	
 	public static void writeUserConfig(String name, String surname, int age, int weight,char gender, String serverIP) {
