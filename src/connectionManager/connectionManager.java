@@ -35,16 +35,7 @@ public class connectionManager {
 			throw new Exception();
 		} 
 	}
-	public void closeConnection() {
-		try {
-			manager.close();
-			pw.close();
-			this.killThread();
-		} catch (IOException e) {
-			System.out.println("could not colose the connection!");
-			e.printStackTrace();
-		}
-	}
+	
 	public UserProfile login (String UserName, String Password) throws Exception {
 		pw.println("USER REQUESTING LOGIN");
 		pw.println(UserName);
@@ -131,9 +122,7 @@ public class connectionManager {
 		this.pw.println("USER REQUESTING ASSISTANCE");
 		this.sendRealTimeFeed();
 	}
-	private void killThread() {
-		this.t.interrupt();
-	}
+	
 	public void sendProfile(UserProfile up) {
 		pw.println("USER REQUESTING NEW USER PROFILE");
 		pw.println(up.getName());

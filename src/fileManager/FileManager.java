@@ -3,6 +3,7 @@ package fileManager;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -103,7 +104,7 @@ public class FileManager {
 		try {
 			System.out.println(manager.getAbsolutePath());
 			manager.createNewFile();
-			data= new PrintWriter(manager);
+			data= new PrintWriter(new FileOutputStream(manager), true);
 			Iterator iterator1= eeg[1].iterator();
 			Iterator iterator3= ecg[1].iterator();
 			
