@@ -19,7 +19,7 @@ public class FileManager {
 		System.out.println(configLog);
 		File conf= new File(configLog);
 		File report= new File(reportDir);
-		if(!conf.isFile()) {
+		if(!conf.isFile()|| !report.isDirectory()) {
 			try {
 				conf.createNewFile();
 				if(!report.isDirectory()) {
