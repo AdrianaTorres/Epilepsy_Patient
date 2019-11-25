@@ -31,6 +31,7 @@ public class MainScreen{
 
 	private JPanel contentPane;
 	private static JFrame f;
+	private String rP=System.getProperty("user.dir")+"\\resources";
 
 	public MainScreen(UserProfile up, connectionManager cm) {
 		f= new JFrame();
@@ -58,7 +59,7 @@ public class MainScreen{
 		label_1.setHorizontalTextPosition(JLabel.CENTER);
 		try {
 			BufferedImage nominal;
-			nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\logo.jpg"));
+			nominal = ImageIO.read(new File(rP+"\\logo.jpg"));
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_1.add(picLabel,BorderLayout.CENTER);
 		}catch(Exception ex) {

@@ -68,6 +68,8 @@ public class PatientViewer {
 
 	private int defaultShiftECG;
 	private int defaultShiftEEG;
+	
+	private String rP=System.getProperty("user.dir")+"\\resources";
 
 	public PatientViewer(UserProfile user,Report rep) {
 
@@ -364,9 +366,9 @@ public class PatientViewer {
 		try {
 			BufferedImage nominal;
 			if(user.getGender()=='m') {
-				nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\NominalMale.jpg"));
+				nominal = ImageIO.read(new File(rP+"\\NominalMale.jpg"));
 			}else {
-				nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\NominalFemale.jpg"));
+				nominal = ImageIO.read(new File(rP+"\\NominalFemale.jpg"));
 			}
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_4.add(picLabel);

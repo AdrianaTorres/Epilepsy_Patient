@@ -39,6 +39,7 @@ public class UserConfiguration {
 
 	private JPanel contentPane;
 	private JFrame f = new JFrame();
+	private String rP=System.getProperty("user.dir")+"\\resources";
 
 	public UserConfiguration(connectionManager cm) {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,7 +130,7 @@ public class UserConfiguration {
 		
 		try {
 			BufferedImage nominal;
-			nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\logo.jpg"));
+			nominal = ImageIO.read(new File(rP+"\\logo.jpg"));
 			Image tmp = nominal.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
 		    BufferedImage dimg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
 		    Graphics2D g2d = dimg.createGraphics();

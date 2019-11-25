@@ -43,6 +43,7 @@ public class GuiPatient {
 	private JPanel panel_5;
 	private JPanel panel_6;
 	private JPanel panel_7;
+	private String rP=System.getProperty("user.dir")+"\\resources";
 	public GuiPatient(UserProfile user, connectionManager cm) {
 		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		f.setBounds(100, 100, 450, 300);
@@ -185,9 +186,9 @@ public class GuiPatient {
 		try {
 			BufferedImage nominal;
 			if(user.getGender()=='m') {
-				nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\NominalMale.jpg"));
+				nominal = ImageIO.read(new File(rP+"\\NominalMale.jpg"));
 			}else {
-				nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\NominalFemale.jpg"));
+				nominal = ImageIO.read(new File(rP+"\\NominalFemale.jpg"));
 			}
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_4.add(picLabel);
@@ -261,9 +262,9 @@ public class GuiPatient {
 				try {
 					BufferedImage nominal;
 					if(user.getGender()=='m') {
-						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SpasticMale.jpg"));
+						nominal = ImageIO.read(new File(rP+"\\SpasticMale.jpg"));
 					}else {
-						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SpasticFemale.jpg"));
+						nominal = ImageIO.read(new File(rP+"\\SpasticFemale.jpg"));
 					}
 					
 					
@@ -297,9 +298,9 @@ public class GuiPatient {
 				try {
 					BufferedImage nominal;
 					if(user.getGender()=='m') {
-						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SymptomsMale.jpg"));
+						nominal = ImageIO.read(new File(rP+"\\SymptomsMale.jpg"));
 					}else {
-						nominal = ImageIO.read(new File("C:\\Users\\Sloth Thy Lord\\Documents\\Sloth thy lord\\Biomédica\\quinto año\\Telemedicina\\SymptomsFemale.jpg"));
+						nominal = ImageIO.read(new File(rP+"\\SymptomsFemale.jpg"));
 					}
 					
 					
