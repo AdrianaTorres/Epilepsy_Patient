@@ -3,6 +3,8 @@ package connectionManager;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -10,12 +12,16 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.bind.DatatypeConverter;
 
 import fileManager.Report;
 import mainMethodPatient.UserProfile;
@@ -212,18 +218,14 @@ public class connectionManager {
 			Map<String, Object> keys = Security.createKeys();
 			privateKey = (PrivateKey) keys.get("private");
 			publicKey = (PublicKey) keys.get("public");
-			ByteArrayOutputStream bos = new ByteArrayOutputStream();
-		    ObjectOutputStream os = new ObjectOutputStream(bos);
-		    os.writeObject(privateKey);
-		    petition = bos.toString();
-			System.out.println("this is my petition:"+petition);
+			
+			petition = DatatypeConverter.printBase64Binary(privateKey.getEncoded());
 			pw.println(petition);
 
 			petition=bf.readLine();
-			ByteArrayInputStream bis = new ByteArrayInputStream(petition.getBytes());
-		    ObjectInputStream oInputStream = new ObjectInputStream(bis);
-			serverPC = (PrivateKey) oInputStream.readObject();
-			oInputStream.close();
+			KeyFactory kf = KeyFactory.getInstance("RSA");
+			byte[] blobusMaximus= DatatypeConverter.parseBase64Binary(petition); 
+			serverPC=kf.generatePrivate(new PKCS8EncodedKeySpec(blobusMaximus));
 		} catch (Exception e) {
 			System.out.println("FAILED HANDSHAKE");
 			e.printStackTrace();
