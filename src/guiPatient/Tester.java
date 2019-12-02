@@ -1,8 +1,12 @@
 package guiPatient;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -55,7 +59,7 @@ public class Tester {
 		m.run();
 		while(true) {
 		}*/
-		ServerSocket serverSocket=null;
+		/*ServerSocket serverSocket=null;
 		try {
 			serverSocket = new ServerSocket(9009);
 		} catch (IOException e1) {
@@ -189,7 +193,13 @@ public class Tester {
             socketServidor.close();
         } catch (IOException ex) {
         	ex.printStackTrace();
-        }
+        }*/
+		String text1="REEE";
+		String text2="this is a test";
+		String[] patches1 = {text1,text2};
+		try {
+		} catch(Exception ex) {
+		    ex.printStackTrace();
+		}
     }
-
 }

@@ -1,16 +1,25 @@
 package connectionManager;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import fileManager.Report;
 import mainMethodPatient.UserProfile;
+import security.Security;
 
 public class connectionManager {
 	private boolean requestedMonitoring;
@@ -19,120 +28,206 @@ public class connectionManager {
 	private BufferedReader bf;
 	private Thread t;
 	private UserProfile up;
+	private PublicKey publicKey;
+	private PrivateKey privateKey;
+	private PrivateKey serverPC;
 
-	public connectionManager(String ip) throws Exception{
+	public connectionManager(String ip) throws Exception {
 		try {
-			manager= new Socket(ip,9000);
-			pw= new PrintWriter(manager.getOutputStream(),true);
-			bf= new BufferedReader(new InputStreamReader(manager.getInputStream()));
-			requestedMonitoring=false;
+			manager = new Socket(ip, 9000);
+			pw = new PrintWriter(manager.getOutputStream(), true);
+			bf = new BufferedReader(new InputStreamReader(manager.getInputStream()));
+			requestedMonitoring = false;
 		} catch (Exception e) {
 			System.out.println("could not connect to server!");
-			manager=null;
-			pw=null;
-			bf=null;
+			manager = null;
+			pw = null;
+			bf = null;
 			e.printStackTrace();
 			throw new Exception();
-		} 
+		}
 	}
-	
-	public UserProfile login (String UserName, String Password) throws Exception {
-		pw.println("USER REQUESTING LOGIN");
-		pw.println(UserName);
-		pw.println(Password);
-		Thread.sleep(100);
-		String serverAnswer=bf.readLine();
-		if(serverAnswer.contains("REJECTED")) {
-			if(serverAnswer.contains("404")) {
+
+	public UserProfile login(String UserName, String Password) throws Exception {
+		handshake();
+		String petition=Security.encryptMessage("USER REQUESTING LOGIN", serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(UserName, serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(Password, serverPC);
+		pw.println(petition);
+		String serverAnswer = bf.readLine();
+		serverAnswer=Security.decryptMessage(serverAnswer, publicKey);
+		if (serverAnswer.contains("REJECTED")) {
+			if (serverAnswer.contains("404")) {
 				throw new Exception();
-			}else {
+			} else {
 				return null;
 			}
-		}else {
-			String name=bf.readLine();
-			String surname=bf.readLine();
-			int weight = Integer.parseInt(bf.readLine());
-			int age = Integer.parseInt(bf.readLine());
-			char gender = bf.readLine().toCharArray()[0];
+		} else {
+			String name = bf.readLine();
+			name=Security.decryptMessage(name, publicKey);
+			String surname = bf.readLine();
+			surname=Security.decryptMessage(surname, publicKey);
+			String temp=bf.readLine();
+			temp=Security.decryptMessage(temp, publicKey);
+			int weight = Integer.parseInt(temp);
+			temp=bf.readLine();
+			temp=Security.decryptMessage(temp, publicKey);
+			int age = Integer.parseInt(temp);
+			temp=bf.readLine();
+			temp=Security.decryptMessage(temp, publicKey);
+			char gender = temp.toCharArray()[0];
 			UserProfile login = new UserProfile(name, surname, weight, age, gender);
 			System.out.println(login.getName());
-			this.up=login;
+			this.up = login;
 			return login;
 		}
 	}
-	public void createProfile(String userName, String password) throws Exception{
-		pw.println("USER REQUESTING NEW PROFILE");
-		pw.println(userName);
-		pw.println(password);
-		String serverReply=bf.readLine();
+
+	public void createProfile(String userName, String password) throws Exception {
+		handshake();
+		String petition="USER REQUESTING NEW PROFILE";
+		petition=Security.encryptMessage(petition, serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(userName, serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(password, serverPC);
+		pw.println(petition);
+		String serverReply = bf.readLine();
+		serverReply=Security.decryptMessage(serverReply, publicKey);
 		if (!serverReply.equals("CONFIRM")) {
 			throw new Exception();
 		}
 	}
+
 	public void sendRealTimeFeed() {
-		this.pw.println("USER REQUESTING MONITORING");
-		this.requestedMonitoring=true;
+		String petition="USER REQUESTING MONITORING";
+		petition= Security.encryptMessage(petition, serverPC);
+		this.pw.println(petition);
+		this.requestedMonitoring = true;
 		t = new Thread(new Runnable() {
 			public void run() {
-				while(true) {
-					List <Double> ecg=up.getBitalinoManager().getECGRealTimeData()[1];
-					List <Double> eeg=up.getBitalinoManager().getEEGRealTimeData()[1];
-					List <Double> time1=up.getBitalinoManager().getECGRealTimeData()[0];
-					List <Double> time2=up.getBitalinoManager().getEEGRealTimeData()[0];
+				while (true) {
+					List<Double> ecg = up.getBitalinoManager().getECGRealTimeData()[1];
+					List<Double> eeg = up.getBitalinoManager().getEEGRealTimeData()[1];
+					List<Double> time1 = up.getBitalinoManager().getECGRealTimeData()[0];
+					List<Double> time2 = up.getBitalinoManager().getEEGRealTimeData()[0];
 					Iterator iterator_1 = eeg.iterator();
-					pw.println("PREPARE TO RECIEVE EEG");
+					String petition="PREPARE TO RECIEVE EEG";
+					petition=Security.encryptMessage(petition, serverPC);
+					pw.println(petition);
+					
 					for (Iterator iterator = time2.iterator(); iterator.hasNext();) {
-						pw.println(iterator.next()); //time valor impar
-						pw.println(iterator_1.next()); //data valor par
+						petition=Security.encryptMessage(""+iterator.next(), serverPC);
+						pw.println(petition); // time valor impar
+						petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
+						pw.println(petition); // data valor par
 					}
-					pw.println("PREPARE TO RECIEVE ECG");
+					petition="PREPARE TO RECIEVE ECG";
+					petition=Security.encryptMessage(petition, serverPC);
+					pw.println(petition);
 					iterator_1 = ecg.iterator();
 					for (Iterator iterator = time1.iterator(); iterator.hasNext();) {
-						pw.println(iterator.next());
-						pw.println(iterator_1.next());
+						petition=Security.encryptMessage(""+iterator.next(), serverPC);
+						pw.println(petition);
+						petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
+						pw.println(petition);
 					}
 				}
 			}
 		});
 	}
+
 	public void sendReport(Report rp) {
-		this.pw.println("USER REQUESTING NEW REPORT");
-		List <Double> time=rp.getEcgData()[0];
-		List <Double> data=rp.getEcgData()[1];
+		String petition="USER REQUESTING NEW REPORT";
+		this.pw.println(petition);
+		List<Double> time = rp.getEcgData()[0];
+		List<Double> data = rp.getEcgData()[1];
 		System.out.println("sending report now!");
-		pw.println("SENDING ECG");
-		Iterator iterator_1=time.iterator();
+		petition="SENDING ECG";
+		petition=Security.encryptMessage(petition, serverPC);
+		pw.println(petition);
+		Iterator iterator_1 = time.iterator();
 		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
-			pw.println(iterator_1.next());
-			pw.println(iterator.next());
+			petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
+			pw.println(petition);
+			petition=Security.encryptMessage(""+iterator.next(), serverPC);
+			pw.println(petition);
 		}
-		pw.println("SENDING EEG");
-		time=rp.getEegData()[0];
-		data=rp.getEegData()[1];
-		iterator_1=time.iterator();
+		petition="SENDING EEG";
+		petition=Security.encryptMessage(petition, serverPC);
+		pw.println(petition);
+		time = rp.getEegData()[0];
+		data = rp.getEegData()[1];
+		iterator_1 = time.iterator();
 		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
-			pw.println(iterator_1.next());
-			pw.println(iterator.next());
+			petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
+			pw.println(petition);
+			petition=Security.encryptMessage(""+iterator.next(), serverPC);
+			pw.println(petition);
 		}
-		pw.println("SENDING COMMENTS");
-		pw.println(rp.getComments());
-		pw.println("DONE");
+		petition="SENDING COMMENTS";
+		petition=Security.encryptMessage(petition, serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(rp.getComments(), serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage("DONE", serverPC);
+		pw.println(petition);
 	}
+
 	public void sendAlert() {
-		this.pw.println("USER REQUESTING ASSISTANCE");
+		String petition="USER REQUESTING ASSISTANCE";
+		petition=Security.encryptMessage(petition, serverPC);
+		this.pw.println(petition);
 		this.sendRealTimeFeed();
 	}
-	
+
 	public void sendProfile(UserProfile up) {
-		pw.println("USER REQUESTING NEW USER PROFILE");
-		pw.println(up.getName());
-		pw.println(up.getSurname());
-		pw.println(up.getWeight());
-		pw.println(up.getAge());
-		pw.println(up.getGender());
-		
+		String petition="USER REQUESTING NEW USER PROFILE";
+		petition=Security.encryptMessage(petition, serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(up.getName(), serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(up.getSurname(), serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(""+up.getWeight(), serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(""+up.getAge(), serverPC);
+		pw.println(petition);
+		petition=Security.encryptMessage(""+up.getGender(), serverPC);
+		pw.println(petition);
+
 	}
+
 	public void terminateSession() {
-		pw.println("FINISHED MONITORING");
+		String petition="FINISHED MONITORING";
+		petition=Security.encryptMessage(petition, serverPC);
+		pw.println(petition);
+	}
+
+	private void handshake() {
+		try {
+			String petition = "";
+			Map<String, Object> keys = Security.createKeys();
+			privateKey = (PrivateKey) keys.get("private");
+			publicKey = (PublicKey) keys.get("public");
+			ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		    ObjectOutputStream os = new ObjectOutputStream(bos);
+		    os.writeObject(privateKey);
+		    petition = bos.toString();
+			System.out.println("this is my petition:"+petition);
+			pw.println(petition);
+
+			petition=bf.readLine();
+			ByteArrayInputStream bis = new ByteArrayInputStream(petition.getBytes());
+		    ObjectInputStream oInputStream = new ObjectInputStream(bis);
+			serverPC = (PrivateKey) oInputStream.readObject();
+			oInputStream.close();
+		} catch (Exception e) {
+			System.out.println("FAILED HANDSHAKE");
+			e.printStackTrace();
+		}
+
 	}
 }
