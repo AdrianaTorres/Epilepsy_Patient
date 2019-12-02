@@ -27,7 +27,7 @@ public class connectionManager {
 			bf= new BufferedReader(new InputStreamReader(manager.getInputStream()));
 			requestedMonitoring=false;
 		} catch (Exception e) {
-			System.out.println("could not connect to server!");
+			System.out.println("Could not connect to server!");
 			manager=null;
 			pw=null;
 			bf=null;
@@ -99,7 +99,7 @@ public class connectionManager {
 		this.pw.println("USER REQUESTING NEW REPORT");
 		List <Double> time=rp.getEcgData()[0];
 		List <Double> data=rp.getEcgData()[1];
-		System.out.println("sending report now!");
+		System.out.println("Sending report now!");
 		pw.println("SENDING ECG");
 		Iterator iterator_1=time.iterator();
 		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
