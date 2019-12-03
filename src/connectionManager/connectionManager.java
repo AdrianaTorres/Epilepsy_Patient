@@ -189,7 +189,7 @@ public class connectionManager {
 		this.sendRealTimeFeed();
 	}
 
-	public void sendProfile(UserProfile up) {
+	public String sendProfile(UserProfile up) {
 		String petition="USER REQUESTING NEW USER PROFILE";
 		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
@@ -203,7 +203,15 @@ public class connectionManager {
 		pw.println(petition);
 		petition=Security.encryptMessage(""+up.getGender(), serverPC);
 		pw.println(petition);
-
+		try {
+			String answer=bf.readLine();
+			answer= Security.decryptMessage(answer, publicKey);
+			return answer;
+		}catch(Exception e) {
+			System.out.println("Something broke... Hope it wasn't that important");
+			return "";
+		}
+		
 	}
 
 	public void terminateSession() {

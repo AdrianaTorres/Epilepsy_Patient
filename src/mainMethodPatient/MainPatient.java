@@ -93,8 +93,13 @@ public class MainPatient {
 	 * magic of contacting the server and sending the information. Once this is done the login page will reopen so that the user may login
 	 * with his brand new credentials and retrieve his new profile.*/
 	public static void requestNewProfile(UserProfile up, connectionManager cm) {
-		cm.sendProfile(up);
+		String answer=cm.sendProfile(up);
 		Login l = new Login();
+		System.out.println("the server replied:"+answer);
+		if(!answer.equals("ACCEPTED")) {
+			l.profileNotValid();
+		}
+		
 	}
 	/*this method is activated when the user presses the symptoms tab, it will tell the server the patient is feeling unwell and will send real 
 	 * time data so that the server can view in real time what the user is seeing */
