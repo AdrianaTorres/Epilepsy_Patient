@@ -264,7 +264,7 @@ public class UserConfiguration {
 		gbc_verticalStrut_3.gridy = 6;
 		panel_1.add(verticalStrut_3, gbc_verticalStrut_3);
 		
-		JCheckBox chckbxMale = new JCheckBox("Male");
+		JCheckBox chckbxMale = new JCheckBox("Women't");
 		chckbxMale.setSelected(true);
 		chckbxMale.setBackground(Color.BLACK);
 		chckbxMale.setForeground(Color.WHITE);
@@ -290,7 +290,7 @@ public class UserConfiguration {
 					MainPatient.requestNewProfile(up, cm);
 					f.dispose();
 				}catch(Exception e){
-					JOptionPane.showMessageDialog(f,"Make sure the inputs are in the correct format.","WARNING",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(f,"Make sure the inputs are in the correct format.\nBy this I mean that the name is an actual name, your weight is an integer number(Barbara, no one says they weight 120.5Kg they just say 60)\n your age too(Should I really explain this?) and finally your surename (Don't try to put something funny, I WILL KNOW)","WARNING",JOptionPane.WARNING_MESSAGE);
 				}
 				
 			}

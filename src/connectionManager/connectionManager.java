@@ -201,10 +201,42 @@ public class connectionManager {
 		pw.println(petition);
 		petition=Security.encryptMessage(""+up.getGender(), serverPC);
 		pw.println(petition);
+		try {
+			String answer = bf.readLine();
+			answer = Security.decryptMessage(answer, publicKey);
+			return answer;
+		} catch (Exception e) {
+			System.out.println("Something broke... Hope it wasn't that important");
+			return "";
+		}
 
 	}
 
 	public void terminateSession() {
 		pw.println("FINISHED MONITORING");
+		String petition = "FINISHED MONITORING";
+		petition = Security.encryptMessage(petition, serverPC);
+		pw.println(petition);
+	}
+
+	private void handshake() {
+		try {
+			String petition = "";
+			Map<String, Object> keys = Security.createKeys();
+			privateKey = (PrivateKey) keys.get("private");
+			publicKey = (PublicKey) keys.get("public");
+
+			petition = DatatypeConverter.printBase64Binary(privateKey.getEncoded());
+			pw.println(petition);
+
+			petition = bf.readLine();
+			KeyFactory kf = KeyFactory.getInstance("RSA");
+			byte[] blobusMaximus = DatatypeConverter.parseBase64Binary(petition);
+			serverPC = kf.generatePrivate(new PKCS8EncodedKeySpec(blobusMaximus));
+		} catch (Exception e) {
+			System.out.println("FAILED HANDSHAKE");
+			e.printStackTrace();
+		}
+
 	}
 }
