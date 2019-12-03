@@ -187,7 +187,7 @@ public class connectionManager {
 		this.sendRealTimeFeed();
 	}
 	
-	public void sendProfile(UserProfile up) {
+	public String sendProfile(UserProfile up) {
 		String petition="USER REQUESTING NEW USER PROFILE";
 		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
