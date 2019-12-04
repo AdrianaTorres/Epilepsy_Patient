@@ -38,17 +38,17 @@ public class connectionManager {
 	private PrivateKey privateKey;
 	private PrivateKey serverPC;
 
-	public connectionManager(String ip) throws Exception {
+	public connectionManager(String ip) throws Exception{
 		try {
-			manager = new Socket(ip, 9000);
-			pw = new PrintWriter(manager.getOutputStream(), true);
-			bf = new BufferedReader(new InputStreamReader(manager.getInputStream()));
-			requestedMonitoring = false;
+			manager= new Socket(ip,9000);
+			pw= new PrintWriter(manager.getOutputStream(),true);
+			bf= new BufferedReader(new InputStreamReader(manager.getInputStream()));
+			requestedMonitoring=false;
 		} catch (Exception e) {
-			System.out.println("could not connect to server!");
-			manager = null;
-			pw = null;
-			bf = null;
+			System.out.println("Could not connect to server!");
+			manager=null;
+			pw=null;
+			bf=null;
 			e.printStackTrace();
 			throw new Exception();
 		}
@@ -56,153 +56,155 @@ public class connectionManager {
 
 	public UserProfile login(String UserName, String Password) throws Exception {
 		handshake();
-		String petition = Security.encryptMessage("USER REQUESTING LOGIN", serverPC);
+		String petition=Security.encryptMessage("USER REQUESTING LOGIN", serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage(UserName, serverPC);
+		petition=Security.encryptMessage(UserName, serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage(Password, serverPC);
+		petition=Security.encryptMessage(Password, serverPC);
 		pw.println(petition);
 		String serverAnswer = bf.readLine();
-		serverAnswer = Security.decryptMessage(serverAnswer, publicKey);
+		serverAnswer=Security.decryptMessage(serverAnswer, publicKey);
 		if (serverAnswer.contains("REJECTED")) {
 			if (serverAnswer.contains("404")) {
 				throw new Exception();
-			} else {
+			}else {
 				return null;
 			}
 		} else {
 			String name = bf.readLine();
-			name = Security.decryptMessage(name, publicKey);
+			name=Security.decryptMessage(name, publicKey);
 			String surname = bf.readLine();
-			surname = Security.decryptMessage(surname, publicKey);
-			String temp = bf.readLine();
-			temp = Security.decryptMessage(temp, publicKey);
+			surname=Security.decryptMessage(surname, publicKey);
+			String temp=bf.readLine();
+			temp=Security.decryptMessage(temp, publicKey);
 			int weight = Integer.parseInt(temp);
-			temp = bf.readLine();
-			temp = Security.decryptMessage(temp, publicKey);
+			temp=bf.readLine();
+			temp=Security.decryptMessage(temp, publicKey);
 			int age = Integer.parseInt(temp);
-			temp = bf.readLine();
-			temp = Security.decryptMessage(temp, publicKey);
+			temp=bf.readLine();
+			temp=Security.decryptMessage(temp, publicKey);
 			char gender = temp.toCharArray()[0];
 			UserProfile login = new UserProfile(name, surname, weight, age, gender);
 			System.out.println(login.getName());
-			this.up = login;
+			this.up=login;
 			return login;
 		}
 	}
 
 	public void createProfile(String userName, String password) throws Exception {
 		handshake();
-		String petition = "USER REQUESTING NEW PROFILE";
-		petition = Security.encryptMessage(petition, serverPC);
+		String petition="USER REQUESTING NEW PROFILE";
+		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage(userName, serverPC);
+		petition=Security.encryptMessage(userName, serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage(password, serverPC);
+		petition=Security.encryptMessage(password, serverPC);
 		pw.println(petition);
 		String serverReply = bf.readLine();
-		serverReply = Security.decryptMessage(serverReply, publicKey);
+		serverReply=Security.decryptMessage(serverReply, publicKey);
 		if (!serverReply.equals("CONFIRM")) {
 			throw new Exception();
 		}
 	}
 
 	public void sendRealTimeFeed() {
-		String petition = "USER REQUESTING MONITORING";
-		petition = Security.encryptMessage(petition, serverPC);
+		String petition="USER REQUESTING MONITORING";
+		petition= Security.encryptMessage(petition, serverPC);
 		this.pw.println(petition);
 		this.requestedMonitoring = true;
 		t = new Thread(new Runnable() {
 			public void run() {
-				while (true) {
-					List<Double> ecg = up.getBitalinoManager().getECGRealTimeData()[1];
-					List<Double> eeg = up.getBitalinoManager().getEEGRealTimeData()[1];
-					List<Double> time1 = up.getBitalinoManager().getECGRealTimeData()[0];
-					List<Double> time2 = up.getBitalinoManager().getEEGRealTimeData()[0];
+				while(true) {
+					List <Double> ecg=up.getBitalinoManager().getECGRealTimeData()[1];
+					List <Double> eeg=up.getBitalinoManager().getEEGRealTimeData()[1];
+					List <Double> time1=up.getBitalinoManager().getECGRealTimeData()[0];
+					List <Double> time2=up.getBitalinoManager().getEEGRealTimeData()[0];
 					Iterator iterator_1 = eeg.iterator();
-					String petition = "PREPARE TO RECIEVE EEG";
-					petition = Security.encryptMessage(petition, serverPC);
+					String petition="PREPARE TO RECIEVE EEG";
+					petition=Security.encryptMessage(petition, serverPC);
 					pw.println(petition);
-
+					
 					for (Iterator iterator = time2.iterator(); iterator.hasNext();) {
-						petition = Security.encryptMessage("" + iterator.next(), serverPC);
+						petition=Security.encryptMessage(""+iterator.next(), serverPC);
 						pw.println(petition); // time valor impar
-						petition = Security.encryptMessage("" + iterator_1.next(), serverPC);
+						petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
 						pw.println(petition); // data valor par
 					}
-					petition = "PREPARE TO RECIEVE ECG";
-					petition = Security.encryptMessage(petition, serverPC);
+					petition="PREPARE TO RECIEVE ECG";
+					petition=Security.encryptMessage(petition, serverPC);
 					pw.println(petition);
 					iterator_1 = ecg.iterator();
 					for (Iterator iterator = time1.iterator(); iterator.hasNext();) {
-						petition = Security.encryptMessage("" + iterator.next(), serverPC);
+						petition=Security.encryptMessage(""+iterator.next(), serverPC);
 						pw.println(petition);
-						petition = Security.encryptMessage("" + iterator_1.next(), serverPC);
+						petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
 						pw.println(petition);
 					}
 				}
 			}
 		});
 	}
-
 	public void sendReport(Report rp) {
+<<<<<<< HEAD
 		String petition = "USER REQUESTING NEW REPORT";
 		petition= Security.encryptMessage(petition, serverPC);
+=======
+		String petition="USER REQUESTING NEW REPORT";
+>>>>>>> branch 'master' of https://github.com/AdrianaTorres/Epilepsy_Patient.git
 		this.pw.println(petition);
 		List<Double> time = rp.getEcgData()[0];
 		List<Double> data = rp.getEcgData()[1];
 		System.out.println("sending report now!");
-		petition = "SENDING ECG";
-		petition = Security.encryptMessage(petition, serverPC);
+		petition="SENDING ECG";
+		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
 		Iterator iterator_1 = time.iterator();
 		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
-			petition = Security.encryptMessage("" + iterator_1.next(), serverPC);
+			petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
 			pw.println(petition);
-			petition = Security.encryptMessage("" + iterator.next(), serverPC);
+			petition=Security.encryptMessage(""+iterator.next(), serverPC);
 			pw.println(petition);
 		}
-		petition = "SENDING EEG";
-		petition = Security.encryptMessage(petition, serverPC);
+		petition="SENDING EEG";
+		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
 		time = rp.getEegData()[0];
 		data = rp.getEegData()[1];
 		iterator_1 = time.iterator();
 		for (Iterator iterator = data.iterator(); iterator.hasNext();) {
-			petition = Security.encryptMessage("" + iterator_1.next(), serverPC);
+			petition=Security.encryptMessage(""+iterator_1.next(), serverPC);
 			pw.println(petition);
-			petition = Security.encryptMessage("" + iterator.next(), serverPC);
+			petition=Security.encryptMessage(""+iterator.next(), serverPC);
 			pw.println(petition);
 		}
-		petition = "SENDING COMMENTS";
-		petition = Security.encryptMessage(petition, serverPC);
+		petition="SENDING COMMENTS";
+		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage(rp.getComments(), serverPC);
+		petition=Security.encryptMessage(rp.getComments(), serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage("DONE", serverPC);
+		petition=Security.encryptMessage("DONE", serverPC);
 		pw.println(petition);
 	}
-
 	public void sendAlert() {
-		String petition = "USER REQUESTING ASSISTANCE";
-		petition = Security.encryptMessage(petition, serverPC);
+		String petition="USER REQUESTING ASSISTANCE";
+		petition=Security.encryptMessage(petition, serverPC);
 		this.pw.println(petition);
 		this.sendRealTimeFeed();
 	}
-
+	
 	public String sendProfile(UserProfile up) {
-		String petition = "USER REQUESTING NEW USER PROFILE";
-		petition = Security.encryptMessage(petition, serverPC);
+		String petition="USER REQUESTING NEW USER PROFILE";
+		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage(up.getName(), serverPC);
+		petition=Security.encryptMessage(up.getName(), serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage(up.getSurname(), serverPC);
+		petition=Security.encryptMessage(up.getSurname(), serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage("" + up.getWeight(), serverPC);
+		petition=Security.encryptMessage(""+up.getWeight(), serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage("" + up.getAge(), serverPC);
+		petition=Security.encryptMessage(""+up.getAge(), serverPC);
 		pw.println(petition);
-		petition = Security.encryptMessage("" + up.getGender(), serverPC);
+		petition=Security.encryptMessage(""+up.getGender(), serverPC);
 		pw.println(petition);
 		try {
 			String answer = bf.readLine();
@@ -216,6 +218,7 @@ public class connectionManager {
 	}
 
 	public void terminateSession() {
+		pw.println("FINISHED MONITORING");
 		String petition = "FINISHED MONITORING";
 		petition = Security.encryptMessage(petition, serverPC);
 		pw.println(petition);

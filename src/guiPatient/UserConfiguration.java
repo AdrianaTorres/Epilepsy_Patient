@@ -264,7 +264,7 @@ public class UserConfiguration {
 		gbc_verticalStrut_3.gridy = 6;
 		panel_1.add(verticalStrut_3, gbc_verticalStrut_3);
 		
-		JCheckBox chckbxMale = new JCheckBox("Women't");
+		JCheckBox chckbxMale = new JCheckBox("Male");
 		chckbxMale.setSelected(true);
 		chckbxMale.setBackground(Color.BLACK);
 		chckbxMale.setForeground(Color.WHITE);
@@ -273,6 +273,16 @@ public class UserConfiguration {
 		gbc_chckbxMale.gridx = 4;
 		gbc_chckbxMale.gridy = 5;
 		panel_1.add(chckbxMale, gbc_chckbxMale);
+		
+		/*JCheckBox chckbxFemale = new JCheckBox("Female");
+		chckbxFemale.setSelected(true);
+		chckbxFemale.setBackground(Color.BLACK);
+		chckbxFemale.setForeground(Color.WHITE);
+		GridBagConstraints gbc_chckbxFemale = new GridBagConstraints();
+		gbc_chckbxFemale.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxFemale.gridx = 4;
+		gbc_chckbxFemale.gridy = 5;
+		panel_1.add(chckbxFemale, gbc_chckbxFemale);*/
 		
 		JButton button_1 = new JButton("Ok");
 		button_1.addActionListener(new ActionListener() {
