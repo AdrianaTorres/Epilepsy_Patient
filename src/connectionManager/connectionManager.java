@@ -145,12 +145,8 @@ public class connectionManager {
 		});
 	}
 	public void sendReport(Report rp) {
-<<<<<<< HEAD
 		String petition = "USER REQUESTING NEW REPORT";
 		petition= Security.encryptMessage(petition, serverPC);
-=======
-		String petition="USER REQUESTING NEW REPORT";
->>>>>>> branch 'master' of https://github.com/AdrianaTorres/Epilepsy_Patient.git
 		this.pw.println(petition);
 		List<Double> time = rp.getEcgData()[0];
 		List<Double> data = rp.getEcgData()[1];
