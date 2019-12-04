@@ -147,6 +147,7 @@ public class connectionManager {
 
 	public void sendReport(Report rp) {
 		String petition = "USER REQUESTING NEW REPORT";
+		petition= Security.encryptMessage(petition, serverPC);
 		this.pw.println(petition);
 		List<Double> time = rp.getEcgData()[0];
 		List<Double> data = rp.getEcgData()[1];

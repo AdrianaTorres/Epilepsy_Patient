@@ -40,9 +40,9 @@ public class MainPatient {
 		FileManager.writeData(up.getBitalinoManager().getECGFull(), up.getBitalinoManager().getEEGFull(), comments);
 		up.stopBitalino();
 		up.getBitalinoManager().purgeData();
-		cm.terminateSession();
 		cm.sendReport(FileManager.readData(FileManager.Defaultpath));
-
+		cm.terminateSession();
+		
 	}
 
 	/*
