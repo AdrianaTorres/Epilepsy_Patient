@@ -35,6 +35,7 @@ import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JSeparator;
 
 public class UserConfiguration {
@@ -268,8 +269,10 @@ public class UserConfiguration {
 		gbc_verticalStrut_3.gridy = 6;
 		panel_1.add(verticalStrut_3, gbc_verticalStrut_3);
 		
-		JCheckBox chckbxMale = new JCheckBox("Male");
-		chckbxMale.setSelected(true);
+		JComboBox<String> chckbxMale = new JComboBox<String>();
+		chckbxMale.addItem("I have an XY chromosome");
+		chckbxMale.addItem("I have an XX chromosome");
+		chckbxMale.setSelectedIndex(0);
 		chckbxMale.setBackground(Color.BLACK);
 		chckbxMale.setForeground(Color.WHITE);
 		GridBagConstraints gbc_chckbxMale = new GridBagConstraints();
@@ -278,16 +281,6 @@ public class UserConfiguration {
 		gbc_chckbxMale.gridy = 5;
 		panel_1.add(chckbxMale, gbc_chckbxMale);
 		
-		/*JCheckBox chckbxFemale = new JCheckBox("Female");
-		chckbxFemale.setSelected(true);
-		chckbxFemale.setBackground(Color.BLACK);
-		chckbxFemale.setForeground(Color.WHITE);
-		GridBagConstraints gbc_chckbxFemale = new GridBagConstraints();
-		gbc_chckbxFemale.insets = new Insets(0, 0, 0, 5);
-		gbc_chckbxFemale.gridx = 4;
-		gbc_chckbxFemale.gridy = 5;
-		panel_1.add(chckbxFemale, gbc_chckbxFemale);*/
-		
 		JButton button_1 = new JButton("Ok");
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -295,7 +288,7 @@ public class UserConfiguration {
 					int age = Integer.parseInt(text_3.getText());
 					int weight = Integer.parseInt(text_4.getText());
 					char gender;
-					if(chckbxMale.isSelected()) {
+					if(chckbxMale.getSelectedIndex()==0) {
 						gender='m';
 					}else {
 						gender= 'f';
