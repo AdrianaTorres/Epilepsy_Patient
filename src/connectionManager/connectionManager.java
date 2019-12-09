@@ -150,7 +150,7 @@ public class connectionManager {
 		this.pw.println(petition);
 		List<Double> time = rp.getEcgData()[0];
 		List<Double> data = rp.getEcgData()[1];
-		System.out.println("sending report now!");
+		System.out.println("Sending report now!");
 		petition="SENDING ECG";
 		petition=Security.encryptMessage(petition, serverPC);
 		pw.println(petition);
@@ -207,7 +207,7 @@ public class connectionManager {
 			answer = Security.decryptMessage(answer, publicKey);
 			return answer;
 		} catch (Exception e) {
-			System.out.println("Something broke... Hope it wasn't that important");
+			System.out.println("Failed to create profile.");
 			return "";
 		}
 

@@ -83,7 +83,7 @@ public class MainPatient {
 		} catch (Exception e1) {
 			// if the server failed to answer back, display an error message.
 			window.failedConnection();
-			System.out.println("could not connect to the server.");
+			System.out.println("Could not connect to the server.");
 		}
 	}
 
@@ -136,7 +136,7 @@ public class MainPatient {
 	public static void requestNewProfile(UserProfile up, connectionManager cm) {
 		String answer = cm.sendProfile(up);
 		Login l = new Login();
-		System.out.println("the server replied:" + answer);
+		System.out.println("The server replied:" + answer);
 		if (!answer.equals("ACCEPTED")) {
 			l.profileNotValid();
 		}
@@ -162,7 +162,7 @@ public class MainPatient {
 		if (!up.bitalinoIsconnected()) {
 			throw new Exception();
 		}
-		System.out.println("success!");
+		System.out.println("Success!");
 		GuiPatient g = new GuiPatient(up, cm);
 	}
 

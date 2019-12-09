@@ -304,7 +304,7 @@ public class UserConfiguration {
 					MainPatient.requestNewProfile(up, cm);
 					f.dispose();
 				}catch(Exception e){
-					JOptionPane.showMessageDialog(f,"Make sure the inputs are in the correct format.\nBy this I mean that the name is an actual name, your weight is an integer number(Barbara, no one says they weight 120.5Kg they just say 60)\n your age too(Should I really explain this?) and finally your surename (Don't try to put something funny, I WILL KNOW)","WARNING",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(f,"Make sure the inputs are in the correct format.\nBy this I mean that the name is an actual name, your weight is an integer number,\n your age too and finally your surname","WARNING",JOptionPane.WARNING_MESSAGE);
 				}
 				
 			}

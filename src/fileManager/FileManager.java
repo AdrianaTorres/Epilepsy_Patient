@@ -30,7 +30,7 @@ public class FileManager {
 				System.out.println(conf.getAbsolutePath());
 			} catch (IOException e) {
 				e.printStackTrace();
-				System.out.println("not possible to create config File or folder...");
+				System.out.println("Not possible to create config File or folder...");
 			}
 		}
 		if(!report.isDirectory()) {
@@ -51,13 +51,13 @@ public class FileManager {
 			data.println(serverIP);
 			data.close();
 		} catch (Exception e) {
-			System.out.println("could not write user config data");
+			System.out.println("Could not write user config data");
 			e.printStackTrace();
 		}finally {
 			try {
 				data.close();
 			}catch(Exception e) {
-				System.out.println("could not close properly the file");
+				System.out.println("Could not close properly the file");
 				e.printStackTrace();
 			}
 		}
@@ -91,7 +91,7 @@ public class FileManager {
 			try {
 				data.close();
 			}catch(Exception e) {
-				System.out.println("could not read user config");
+				System.out.println("Could not read user config");
 				e.printStackTrace();
 			}
 		}
@@ -125,13 +125,13 @@ public class FileManager {
 			data.println("COMMENTS");
 			data.println(comments);
 		}catch(Exception e) {
-			System.out.println("could not create report file");
+			System.out.println("Could not create report file");
 			e.printStackTrace();
 		}finally {
 			try {
 				data.close();
 			}catch(Exception e) {
-				System.out.println("could not close report file");
+				System.out.println("Could not close report file");
 				e.printStackTrace();
 			}
 			
@@ -178,12 +178,12 @@ public class FileManager {
 			try {
 				data.close();
 			}catch(Exception e) {
-				System.out.println("could not close reader");
+				System.out.println("Could not close reader");
 				e.printStackTrace();
 			}
 			return new Report ((new List[]{time2, ecg}),(new List[]{time1, eeg}),comment);
 		} catch (Exception e) {
-			System.out.println("could not read report");
+			System.out.println("Could not read report");
 			e.printStackTrace();
 			return null;
 		}

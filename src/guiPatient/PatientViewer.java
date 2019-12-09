@@ -180,7 +180,7 @@ public class PatientViewer {
 						//reScaleEEG();
 					}catch(Exception e) {
 						e.printStackTrace();
-						System.out.println("Can u not break my app plz?");
+						System.out.println("Could not attent request.");
 					}
 				}
 			}
@@ -253,7 +253,7 @@ public class PatientViewer {
 						//reScaleECG();
 					}catch(Exception e) {
 						e.printStackTrace();
-						System.out.println("Can u not break my app plz?");
+						System.out.println("Could not attend request.");
 					}
 				}
 			}
@@ -374,7 +374,7 @@ public class PatientViewer {
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_4.add(picLabel);
 		} catch (Exception e) {
-			System.out.println("failed to import image!");
+			System.out.println("Failed to import image!");
 			e.printStackTrace();
 		}
 

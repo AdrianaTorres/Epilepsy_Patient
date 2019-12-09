@@ -60,7 +60,7 @@ public class XYPanel extends JPanel implements ChartMonitor{
     		chart.updateXYSeries(plot, data[0], data[1], null);
             repaint();
     	}catch(Exception e) {
-    		System.out.println("someone sent something weird... hold on...");
+    		System.out.println("An error occurred.");
     	}
         
     }

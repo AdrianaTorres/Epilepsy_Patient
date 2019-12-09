@@ -147,7 +147,7 @@ public class ConnectingToBitalino {
 					panel_3.add(horizontalStrut_6);
 				}
 				
-				// figure how to call a window while closing this shit fucking bitch of a window.
+				// figure how to call a window while closing this window.
 			}
 		});
 		f.setVisible(true);

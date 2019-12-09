@@ -195,7 +195,7 @@ public class Login {
 		btnCreateProfile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(text_1.getText().equals("")||text_2.getText().equals("")) {
-					JOptionPane.showMessageDialog(null, "how about ypou don't break my app?\n Thank you, very much appreciated <3", "big no no", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Could not create profile.", "Invalid credentials.", JOptionPane.ERROR_MESSAGE);
 				}else {
 					MainPatient.createProfile(text_1.getText(), text_2.getText(), textField.getText(), Login.this);
 				}
@@ -213,16 +213,16 @@ public class Login {
 		f.dispose();
 	}
 	public void failedConnection() {
-		JOptionPane.showMessageDialog(null, "The server is on vacation, however you can call Carl\nCarl will fix anything, your code problems, your alcoholism, your mariage...\n you name it sister\n(605) 475–6968", "Big oopsie", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Could not connect to the server.", "Try it again.", JOptionPane.ERROR_MESSAGE);
 	}
 	public void incorrectPassword() {
-		JOptionPane.showMessageDialog(null, "Wrong guess. Are you trying to do something shady pal?", "WARNING", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Incorrect password.", "WARNING", JOptionPane.INFORMATION_MESSAGE);
 	}
 	public void invalidUsername() {
-		JOptionPane.showMessageDialog(null, "WOW! You got a rare error! upvote to get some karma", "WARNING", JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Invalid username.", "WARNING", JOptionPane.INFORMATION_MESSAGE);
 	}
 	public void profileNotValid() {
-		JOptionPane.showMessageDialog(null, "The server just called back\nhe says you can keep the credentials he didn't like them", "ERROR", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(null, "Invalid credentials.", "ERROR", JOptionPane.ERROR_MESSAGE);
 	}
 
 }
