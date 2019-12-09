@@ -22,6 +22,8 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 import java.awt.Component;
@@ -184,15 +186,15 @@ public class GuiPatient {
 		contentPane.add(panel_4, BorderLayout.EAST);
 
 		try {
-			BufferedImage nominal;
+			URL nominal;
 			if(user.getGender()=='m') {
-				nominal = ImageIO.read(new File(rP+"\\NominalMale.jpg"));
+				nominal = GuiPatient.class.getResource("/NominalMale.jpg");
 			}else {
-				nominal = ImageIO.read(new File(rP+"\\NominalFemale.jpg"));
+				nominal = GuiPatient.class.getResource("/NominalFemale.jpg");
 			}
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_4.add(picLabel);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("failed to import image!");
 			e.printStackTrace();
 		}
@@ -260,11 +262,11 @@ public class GuiPatient {
 			public void actionPerformed(ActionEvent arg0) {
 				MainPatient.requestMonitoring(cm);
 				try {
-					BufferedImage nominal;
+					URL nominal;
 					if(user.getGender()=='m') {
-						nominal = ImageIO.read(new File(rP+"\\SpasticMale.jpg"));
+						nominal = GuiPatient.class.getResource("/SpasticMale.jpg");
 					}else {
-						nominal = ImageIO.read(new File(rP+"\\SpasticFemale.jpg"));
+						nominal = GuiPatient.class.getResource("/SpasticFemale.jpg");
 					}
 					
 					
@@ -274,7 +276,7 @@ public class GuiPatient {
 					panel_4.setVisible(false);
 					panel_4.setVisible(true);
 					
-				} catch (IOException e) {
+				} catch (Exception e) {
 					System.out.println("failed to import image!");
 					e.printStackTrace();
 				}
@@ -296,11 +298,11 @@ public class GuiPatient {
 				SymptomsTab s= new SymptomsTab(GuiPatient.this);
 				s.SufferedSymptoms();
 				try {
-					BufferedImage nominal;
+					URL nominal;
 					if(user.getGender()=='m') {
-						nominal = ImageIO.read(new File(rP+"\\SymptomsMale.jpg"));
+						nominal = GuiPatient.class.getResource("/SymptomsMale.jpg");
 					}else {
-						nominal = ImageIO.read(new File(rP+"\\SymptomsFemale.jpg"));
+						nominal = GuiPatient.class.getResource("/SymptomsFemale.jpg");
 					}
 					
 					
@@ -310,7 +312,7 @@ public class GuiPatient {
 					panel_4.setVisible(false);
 					panel_4.setVisible(true);
 					
-				} catch (IOException ex) {
+				} catch (Exception ex) {
 					System.out.println("failed to import image!");
 					ex.printStackTrace();
 				}

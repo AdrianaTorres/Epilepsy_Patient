@@ -9,6 +9,8 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
+
 import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
@@ -31,7 +33,6 @@ public class MainScreen{
 
 	private JPanel contentPane;
 	private static JFrame f;
-	private String rP=System.getProperty("user.dir")+"\\resources";
 
 	public MainScreen(UserProfile up, connectionManager cm) {
 		f= new JFrame();
@@ -58,8 +59,8 @@ public class MainScreen{
 		label_1.setForeground(Color.WHITE);
 		label_1.setHorizontalTextPosition(JLabel.CENTER);
 		try {
-			BufferedImage nominal;
-			nominal = ImageIO.read(new File(rP+"\\logo.jpg"));
+			URL nominal;
+			nominal = MainScreen.class.getResource("/logo.jpg");
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_1.add(picLabel,BorderLayout.CENTER);
 		}catch(Exception ex) {

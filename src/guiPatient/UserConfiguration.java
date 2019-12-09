@@ -26,10 +26,12 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBox;
@@ -39,7 +41,6 @@ public class UserConfiguration {
 
 	private JPanel contentPane;
 	private JFrame f = new JFrame();
-	private String rP=System.getProperty("user.dir")+"\\resources";
 
 	public UserConfiguration(connectionManager cm) {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -129,14 +130,17 @@ public class UserConfiguration {
 		text_4.setForeground(Color.WHITE);
 		
 		try {
-			BufferedImage nominal;
-			nominal = ImageIO.read(new File(rP+"\\logo.jpg"));
-			Image tmp = nominal.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-		    BufferedImage dimg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
-		    Graphics2D g2d = dimg.createGraphics();
-		    g2d.drawImage(tmp, 0, 0, null);
-		    g2d.dispose();
-		    JLabel picLabel = new JLabel(new ImageIcon(dimg));
+			URL nominal;
+			nominal = UserConfiguration.class.getResource("/logo.jpg");
+			ImageIcon helper=new ImageIcon(nominal);
+			Image helper2= helper.getImage();
+			BufferedImage resizedImg = new BufferedImage(100, 100, BufferedImage.TYPE_INT_ARGB);
+		    Graphics2D g2 = resizedImg.createGraphics();
+
+		    g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		    g2.drawImage(helper2, 0, 0, 100, 100, null);
+		    g2.dispose();
+		    JLabel picLabel = new JLabel(new ImageIcon(resizedImg));
 
 			panel_4.add(picLabel,BorderLayout.CENTER);
 			

@@ -21,6 +21,7 @@ import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -364,15 +365,15 @@ public class PatientViewer {
 		contentPane.add(panel_4, BorderLayout.EAST);
 
 		try {
-			BufferedImage nominal;
+			URL nominal;
 			if(user.getGender()=='m') {
-				nominal = ImageIO.read(new File(rP+"\\NominalMale.jpg"));
+				nominal = PatientViewer.class.getResource("/NominalMale.jpg");
 			}else {
-				nominal = ImageIO.read(new File(rP+"\\NominalFemale.jpg"));
+				nominal = PatientViewer.class.getResource("/NominalFemale.jpg");
 			}
 			JLabel picLabel = new JLabel(new ImageIcon(nominal));
 			panel_4.add(picLabel);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			System.out.println("failed to import image!");
 			e.printStackTrace();
 		}

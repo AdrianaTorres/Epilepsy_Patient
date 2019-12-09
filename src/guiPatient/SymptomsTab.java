@@ -20,6 +20,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class SymptomsTab {
@@ -377,6 +379,9 @@ public class SymptomsTab {
 		if(cbx_12.isSelected()) {
 			symptomsList=symptomsList+"-Experienced some sort of incontinence\n";
 		}
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		String string  = dateFormat.format(new Date());
+		symptomsList=symptomsList+"reported at:"+string+"\n";
 		return symptomsList;
 	}
 
