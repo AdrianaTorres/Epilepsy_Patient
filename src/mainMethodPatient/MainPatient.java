@@ -114,7 +114,6 @@ public class MainPatient {
 				 * message saying it didn't like what it saw.
 				 */
 				window.profileNotValid();
-				e1.printStackTrace();
 			}
 		} catch (Exception e) {
 			/*
@@ -122,7 +121,6 @@ public class MainPatient {
 			 * connection failed or something.
 			 */
 			window.failedConnection();
-			e.printStackTrace();
 		}
 	}
 
