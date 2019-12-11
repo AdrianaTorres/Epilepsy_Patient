@@ -102,7 +102,9 @@ public class connectionManager {
 		pw.println(petition);
 		String serverReply = bf.readLine();
 		serverReply=Security.decryptMessage(serverReply, publicKey);
+		System.out.println("the server answers back with:"+serverReply);
 		if (!serverReply.equals("CONFIRM")) {
+			System.out.println("paso");
 			throw new Exception();
 		}
 	}

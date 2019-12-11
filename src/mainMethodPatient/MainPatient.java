@@ -135,7 +135,7 @@ public class MainPatient {
 		String answer = cm.sendProfile(up);
 		Login l = new Login();
 		System.out.println("The server replied:" + answer);
-		if (!answer.equals("ACCEPTED")) {
+		if (!answer.equals("CONFIRM")) {
 			l.profileNotValid();
 		}
 
